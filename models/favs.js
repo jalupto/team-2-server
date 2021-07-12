@@ -21,6 +21,9 @@ const Favorites = db.define('favs', {
     activity: {
         type: DataTypes.STRING,
         allowNull: true
+    },
+    owner_id: {
+        type: DataTypes.INTEGER
     }
 });
 
