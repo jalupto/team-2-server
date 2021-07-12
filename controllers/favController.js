@@ -12,7 +12,7 @@ Update log
 */
 
 router.put('/:id', validateToken, async(req, res) => {
-    const { description, definition, result } = req.body.fav;
+    const { city, hotel, hot_spot, restaurant, activity } = req.body.fav;
     const favId = req.params.id;
     const userId = req.user.id;
 
@@ -26,9 +26,11 @@ router.put('/:id', validateToken, async(req, res) => {
     console.log(favId, userId);
 
     const updatedFav = {
-        description: description,
-        definition: definition,
-        result: result
+        city: city,
+        hotel: hotel,
+        hot_spot: hot_spot,
+        restaurant: restaurant,
+        activity: activity
     };
 
     try {

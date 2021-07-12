@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require('../db');
 
-const Favorites = db.define('fav', {
+const Favorites = db.define('favs', {
     city: {
         type: DataTypes.STRING,
         allowNull: false
@@ -18,7 +18,7 @@ const Favorites = db.define('fav', {
         type: DataTypes.STRING,
         allowNull: true
     },
-    events: {
+    activity: {
         type: DataTypes.STRING,
         allowNull: true
     }
