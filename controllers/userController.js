@@ -1,13 +1,14 @@
 const router = require("express").Router();
 const { UserModel } = require("../models");
 
+
 /*
 ========================================================================================================
 DELETE USER
 ========================================================================================================
 */
 
-router.delete('/user/:id', validateToken, async(req, res) => {
+router.delete('/user/:id', async(req, res) => {
     const userId = req.user.id;
 
     try {
