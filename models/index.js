@@ -1,4 +1,4 @@
-const UserModel = require("./user");
+const UserModel = require("./users");
 const FavModel = require("./favs");
 
 module.exports = {
