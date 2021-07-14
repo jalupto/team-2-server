@@ -1,17 +1,24 @@
 const router = require("express").Router();
 const { UserModel } = require("../models");
-const { UniqueContraintError } = require("sequelize/lib/errors");
+const { UniqueConstraintError } = require("sequelize/lib/errors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+let validateToken = require("../middleware/validate-token");
+
+
+/*
+========================================================================================================
+REGISTER USER
+========================================================================================================
+*/
 
 router.post("/register", async (req, res) => {
 
-    let { username, email, password } = req.body.user;
+    let { email, password } = req.body.user;
     try{
         const User = await UserModel.create({
-            username,
             email,
-            password: bcrypt.hashSync(passwordhash, 13),
+            password: bcrypt.hashSync(password, 13),
         });
 
         let token = jwt.sign({id: User.id}, process.env.JWT_SECRET, {expiresIn: 60 * 60 * 24});
@@ -22,7 +29,7 @@ router.post("/register", async (req, res) => {
             sessionToken: token
         });
     } catch (err) {
-        if (err instanceof UniqueContraintError) {
+        if (err instanceof UniqueConstraintError) {
             res.status(409).json({
                 message: "Email or username already in use",
             });
@@ -35,6 +42,13 @@ router.post("/register", async (req, res) => {
     
 });
 
+/*
+========================================================================================================
+LOGIN USER
+========================================================================================================
+*/
+
+
 router.post("/login", async (req, res) => {
 
     let { email, password } = req.body.user;
@@ -43,10 +57,10 @@ router.post("/login", async (req, res) => {
             where: {
                 email: email,
             },
-         });
-         if (loginUser) {
+        });
+        if (loginUser) {
 
-            let passwordComparison = await bcrypt.compare(passwordhash, loginUser.passwordhash);
+            let passwordComparison = await bcrypt.compare(password, loginUser.password);
 
             if (passwordComparison) {
 
@@ -86,18 +100,25 @@ DELETE USER
 ========================================================================================================
 */
 
-router.delete('/user/:id', async(req, res) => {
-    const userId = req.user.id;
+router.delete('/', validateToken, async(req, res) => {
 
+    const userId = req.user.id;
+    const userEmail = req.user.email
+    console.log(userId);
+    console.log(userEmail);
     try {
         const query = {
             where: {
-                id: userId
-            }
+                id: userId,
+                email: userEmail
+            },
         };
 
         await UserModel.destroy(query);
-        res.status(200).json({ message: 'Account has been removed.' });
+        res.status(200).json({
+            message: `Account #${userId} corresponding with user ${userEmail} has been removed.`,
+        
+        })
     } catch (err) {
         res.status(500).json({ error: err });
     }
