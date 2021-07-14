@@ -11,7 +11,7 @@ router.post("/register", async (req, res) => {
     try{
         const User = await UserModel.create({
             email,
-            password: bcrypt.hashSync(password, 13),
+            password: bcrypt.hashSync(password, 13)
         });
 
         let token = jwt.sign({id: User.id}, process.env.JWT_SECRET, {expiresIn: 60 * 60 * 24});
@@ -41,8 +41,8 @@ router.post("/login", async (req, res) => {
     try{   
         const loginUser = await UserModel.findOne({
             where: {
-                email: email,
-            },
+                email: email
+            }
         });
         if (loginUser) {
 
@@ -88,18 +88,46 @@ DELETE USER
 
 router.delete('/:id', validateToken, async(req, res) => {
     const userId = req.user.id;
+    // let { email, password } = req.body.user;
 
     try {
         const query = {
             where: {
-                id: userId
+                id: userId,
+                // email: email,
+                // password: password
             }
         };
 
+        // if (query) {
+        //     let passwordComparison = await bcrypt.compare(password, query.password);
+
+        //     if (passwordComparison) {
+        //         await UserModel.destroy(query);
+
+        //         res.status(200).json({ 
+        //             message: 'Account has been removed.',
+        //             query
+        //         });
+        //     } else {
+        //         res.status(401).json({
+        //             message: 'Credentials do not match.'
+        //         });
+        //     }
+        // } else {
+        //     res.status(401).json({
+        //         message: 'Unable to remove account.'
+        //         });
+        // }
         await UserModel.destroy(query);
-        res.status(200).json({ message: 'Account has been removed.' });
+
+            res.status(200).json({ 
+                message: 'Account has been removed.',
+                query
+            });
+
     } catch (err) {
-        res.status(500).json({ error: err });
+        res.status(500).json({ message: 'Unable to remove account.' });
     }
 });
 
