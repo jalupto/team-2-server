@@ -3,7 +3,15 @@ const { UserModel } = require("../models");
 const { UniqueConstraintError } = require("sequelize/lib/errors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-let validateToken = require('../middleware/validate-token');
+let validateToken = require("../middleware/validate-token");
+
+/*
+========================================================================================================
+REGISTER USER
+========================================================================================================
+*/
+=======
+
 
 router.post("/register", async (req, res) => {
 
@@ -35,14 +43,21 @@ router.post("/register", async (req, res) => {
     
 });
 
+/*
+========================================================================================================
+LOGIN USER
+========================================================================================================
+*/
+
+
 router.post("/login", async (req, res) => {
 
     let { email, password } = req.body.user;
     try{   
         const loginUser = await UserModel.findOne({
             where: {
-                email: email
-            }
+                email: email,
+            },
         });
         if (loginUser) {
 
@@ -86,17 +101,23 @@ DELETE USER
 ========================================================================================================
 */
 
-router.delete('/:id', validateToken, async(req, res) => {
-    const userId = req.user.id;
+router.delete('/', validateToken, async(req, res) => {
+const userId = req.user.id;
+const userEmail = req.user.email  
+// router.delete('/:id', validateToken, async(req, res) => {
     // let { email, password } = req.body.user;
-
+    
     try {
         const query = {
             where: {
                 id: userId,
+                email: userEmail
+            },
+
                 // email: email,
                 // password: password
             }
+
         };
 
         // if (query) {
@@ -121,11 +142,9 @@ router.delete('/:id', validateToken, async(req, res) => {
         // }
         await UserModel.destroy(query);
 
-            res.status(200).json({ 
-                message: 'Account has been removed.',
-                query
-            });
-
+        res.status(200).json({
+            message: `Account #${userId} corresponding with user ${userEmail} has been removed.`,
+        })
     } catch (err) {
         res.status(500).json({ message: 'Unable to remove account.' });
     }

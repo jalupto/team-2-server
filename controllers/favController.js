@@ -35,18 +35,17 @@ router.post("/", validateToken, async (req, res) => {
 
 /*
 =========================================
-View Favorite (by user/id)
+View Favorite (by User)
 =========================================
 */
 
-router.get("/:id", validateToken, async (req, res) => {
-    const userId = req.user.id;
-    const favId = req.params.id;
+router.get("/", validateToken, async (req, res) => {
+    const { id } = req.user;
+
     try {
         const favByUser = await FavModel.findAll({
             where: {
-                owner_id: userId,
-                id: favId,
+                owner_id: id
             },
         });
         res.status(200).json(favByUser);
@@ -106,7 +105,7 @@ Delete Favorite
 =========================================
 */
 
-router.delete('/:id', validateToken, async(req, res) => {
+router.delete('/:id', validateToken, async(req, res) => { 
     const userId = req.user.id;
     const favId = req.params.id;
 
