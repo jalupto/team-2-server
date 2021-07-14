@@ -65,7 +65,7 @@ Update Favorite
 */
 
 router.put('/:id', validateToken, async(req, res) => {
-    const { city, hotel, hot_spot, restaurant, activity } = req.body.fav;
+    const { city, hotel, hot_spot, restaurant, activity } = req.body.favs;
     const favId = req.params.id;
     const userId = req.user.id;
 
