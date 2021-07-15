@@ -10,7 +10,6 @@ let validateToken = require("../middleware/validate-token");
 REGISTER USER
 ========================================================================================================
 */
-=======
 
 
 router.post("/register", async (req, res) => {
@@ -118,7 +117,7 @@ const userEmail = req.user.email
                 // password: password
             }
 
-        };
+        // };
 
         // if (query) {
         //     let passwordComparison = await bcrypt.compare(password, query.password);
