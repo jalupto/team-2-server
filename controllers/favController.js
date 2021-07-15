@@ -22,7 +22,7 @@ router.post("/", validateToken, async (req, res) => {
     try {
         const newFav = await FavModel.create(favEntry);
         res.status(200).json({
-            // message: "Favorite saved!",
+            message: "Favorite saved!",
             newFav
         });
     } catch(err) {
