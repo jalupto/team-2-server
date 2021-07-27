@@ -10,10 +10,6 @@ const Favorites = db.define("favs", {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    hot_spot: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
     restaurant: {
         type: DataTypes.STRING,
         allowNull: true,

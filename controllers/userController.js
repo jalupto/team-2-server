@@ -7,7 +7,7 @@ let validateToken = require("../middleware/validate-token");
 
 /*
 ========================================================================================================
-REGISTER USER
+REGISTER USER by Arianne
 ========================================================================================================
 */
 
@@ -44,7 +44,7 @@ router.post("/register", async (req, res) => {
 
 /*
 ========================================================================================================
-LOGIN USER
+LOGIN USER by Arianne
 ========================================================================================================
 */
 
@@ -96,15 +96,13 @@ router.post("/login", async (req, res) => {
 
 /*
 ========================================================================================================
-DELETE USER
+DELETE USER by Jared and Cherron
 ========================================================================================================
 */
 
 router.delete('/', validateToken, async(req, res) => {
 const userId = req.user.id;
-const userEmail = req.user.email  
-// router.delete('/:id', validateToken, async(req, res) => {
-    // let { email, password } = req.body.user;
+const userEmail = req.user.email;
     
     try {
         const query = {
@@ -112,33 +110,8 @@ const userEmail = req.user.email
                 id: userId,
                 email: userEmail
             },
+        }
 
-                // email: email,
-                // password: password
-            }
-
-        // };
-
-        // if (query) {
-        //     let passwordComparison = await bcrypt.compare(password, query.password);
-
-        //     if (passwordComparison) {
-        //         await UserModel.destroy(query);
-
-        //         res.status(200).json({ 
-        //             message: 'Account has been removed.',
-        //             query
-        //         });
-        //     } else {
-        //         res.status(401).json({
-        //             message: 'Credentials do not match.'
-        //         });
-        //     }
-        // } else {
-        //     res.status(401).json({
-        //         message: 'Unable to remove account.'
-        //         });
-        // }
         await UserModel.destroy(query);
 
         res.status(200).json({

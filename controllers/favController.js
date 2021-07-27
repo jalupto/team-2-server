@@ -5,16 +5,15 @@ const { FavModel } = require("../models");
 
 /*
 =========================================
-Create Favorite
+Create Favorite by Cherron
 =========================================
 */
 router.post("/", validateToken, async (req, res) => {
-    const { city, hotel, hot_spot, restaurant, activity } = req.body.favs;
+    const { city, hotel, restaurant, activity } = req.body.favs;
     const userId = req.user.id;
     const favEntry = {
         city, 
         hotel,
-        hot_spot,
         restaurant,
         activity,
         owner_id: userId
@@ -35,7 +34,7 @@ router.post("/", validateToken, async (req, res) => {
 
 /*
 =========================================
-View Favorite (by User)
+View User Favorite by Cherron
 =========================================
 */
 
@@ -59,12 +58,12 @@ router.get("/", validateToken, async (req, res) => {
 
 /*
 =========================================
-Update Favorite
+Update Favorite by Jared
 =========================================
 */
 
 router.put('/:id', validateToken, async(req, res) => {
-    const { city, hotel, hot_spot, restaurant, activity } = req.body.favs;
+    const { city, hotel, restaurant, activity } = req.body.favs;
     const favId = req.params.id;
     const userId = req.user.id;
 
@@ -80,7 +79,6 @@ router.put('/:id', validateToken, async(req, res) => {
     const updatedFav = {
         city: city,
         hotel: hotel,
-        hot_spot: hot_spot,
         restaurant: restaurant,
         activity: activity
     };
@@ -101,7 +99,7 @@ router.put('/:id', validateToken, async(req, res) => {
 
 /*
 =========================================
-Delete Favorite
+Delete Favorite by Jared
 =========================================
 */
 
